@@ -1,11 +1,16 @@
 
 const express = require('express');
 const Product = require('../models/productModel');
-
+const cloudinary=require('../config/cloudinary');
+const upload = require('../config/multer');
 //create a product
 const createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    // Upload image to Cloudinary
+    const image = req.file.path;
+    const uploadedImage = await cloudinary.uploader.upload(image);
+    
+    const product = new Product({...req.body,image: uploadedImage.secure_url,});
     await product.save();
     res.status(201).send(product);
   } catch (error) {

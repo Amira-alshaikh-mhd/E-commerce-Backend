@@ -27,7 +27,7 @@ const productTable=mongoose.Schema({
      quantity:{
         type:Number
      },
-    //   image:String,
+      image:[String],
    
 },
     {

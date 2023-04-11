@@ -4,11 +4,13 @@ const connection = require("./config/db");
 const express = require("express");
 const app = express();
 const cors = require('cors');
-const productRoute=require("./routes/productRoutes")
-
+const productRoute=require("./routes/productRoutes");
+const fs=require('fs');
+const cloudinary=require('./config/cloudinary');
 mongoose.set("strictQuery", true);
 
 connection();
+
 
 app.use(cors());
 app.use(express.json());

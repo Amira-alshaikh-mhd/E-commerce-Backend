@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary=require('../config/cloudinary')
+const upload = require('../config/multer');
+
 const {createProduct}=require("../controllers/productControllers");
 const{getAllProducts}=require("../controllers/productControllers");
 const{getProductById}=require("../controllers/productControllers");
 const{ updateProductById}=require("../controllers/productControllers");
 const{deleteProductById}=require("../controllers/productControllers");
+
 //set product
-router.post("/product",createProduct);
+router.post("/product",upload.array('image'),createProduct);
 
 //get all product
 router.get("/product",getAllProducts);
