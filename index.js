@@ -6,7 +6,9 @@ const app = express();
 const cors = require('cors');
 const {errorHandler} = require('./middleware/categoriesmiddleware')
 
-mongoose.connect("mongodb+srv://Amira:KRsRFp2PNaxWst9l@cluster0.bmlw1c9.mongodb.net/?retryWrites=true&w=majority")
+connection();
+
+// mongoose.connect("mongodb+srv://Amira:KRsRFp2PNaxWst9l@cluster0.bmlw1c9.mongodb.net/?retryWrites=true&w=majority")
 const CategoryModel = require('./models/categorisModel')
 
 mongoose.set("strictQuery", true);
@@ -36,7 +38,7 @@ mongoose.set("strictQuery", true);
 
 
 
-// connection();
+
 
 app.use(cors());
 app.use(express.json());

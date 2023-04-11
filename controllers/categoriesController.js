@@ -46,7 +46,7 @@ if (!category){
     res.status(400)
     throw new Error('Category not found')
 }
- await category.remove()
+ await category.deleteOne()
     res.status(200).json({id: req.params.id})
 }
 
