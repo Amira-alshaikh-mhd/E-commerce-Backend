@@ -1,5 +1,5 @@
 const express = require("express");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 const { errorHandler } = require("./middleware/errorMiddleware");
 const mongoose = require("mongoose");
 const connectDB = require('./config/db')
@@ -10,7 +10,6 @@ require("./config/db");
 connectDB()
 
 const app = express();
-dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
