@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   }
   
 });
-console.log(storage.destination);
+console.log(storage.filename);
 
 // file validation
 const fileFilter = (req, file, cb) => {
