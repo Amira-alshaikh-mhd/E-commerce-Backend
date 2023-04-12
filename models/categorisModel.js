@@ -11,14 +11,15 @@ const CategorySchema =new mongoose.Schema({
         type:String,
     },
     Image:{
-        public_id: {
-            type: String,
-            required:true
-        },
-        url:{
-            type: String,
-            required:true
-        }
+        type:Object,
+        
+        // public_id: {
+        //     type: String,
+        // },
+        // url:{
+        //     type: String,
+            
+        // }
     },
 })
 

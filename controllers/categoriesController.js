@@ -16,25 +16,25 @@ const categoris = await CategoryModel.find()
 const setCategory = async (req, res, next) => {
 
     const {name, season, sale, image} = req.body;
-
     
-// if (!req.body.name || !req.body.season || !req.body.image) {
-// res.status(400).json({message: "Please add all the information"});
+    
+if (!req.body.name || !req.body.season || !req.body.image) {
+res.status(400).json({message: "Please add all the information"});
 
-// }
+}
 
 try{
+    // const category = "category";
+
     const result =await cloudinary.uploader.upload(image, {
-        folder:category,
+        folder: "Avatars",
     })
+
     const Category = await CategoryModel.create({
         name,
         season,
         sale,
-        image:{
-            puplic_id: result.public_id,
-            url:result.secure_url,
-        }
+        image: result
     });
     res.status(201).json({
         success:true,
@@ -65,6 +65,7 @@ try{
 
 const updateCategory = async (req, res) => {
 const category =await CategoryModel.findById(req.params.id)
+
 
 if (!category){
     res.status(400)

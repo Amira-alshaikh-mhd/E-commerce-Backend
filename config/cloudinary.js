@@ -10,10 +10,17 @@ const cloudinary = require('cloudinary').v2;
 
 
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
+
+ cloud_name: 'dvnusovip',
+    api_key: '781174443922673' ,
+    api_secret: '8cx6Jqxbf03LokVFUGJbW9Ko31M'
+
+    // cloud_name: process.env.CLOUD_NAME,
+    // api_key: process.env.API_KEY,
+    // api_secret: process.env.API_SECRET
   });
+
+
 
   module.exports = cloudinary;
 //   const opts = {
