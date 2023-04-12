@@ -1,29 +1,66 @@
   
 const CategoryModel = require('../models/categorisModel')
+const cloudinary = require("../config/cloudinary.js");
 
+// get all category
 const getCategoris = async(req, res) => {
 const categoris = await CategoryModel.find()
 
     res.status(200).json(categoris)
 }
 
+  
 
-const setCategory = async (req, res) => {
-if (!req.body.name) {
-res.status(4000)
-throw new Error('Please add a name')
+// post category
+
+const setCategory = async (req, res, next) => {
+
+    const {name, season, sale, image} = req.body;
+
+    
+// if (!req.body.name || !req.body.season || !req.body.image) {
+// res.status(400).json({message: "Please add all the information"});
+
+// }
+
+try{
+    const result =await cloudinary.uploader.upload(image, {
+        folder:category,
+    })
+    const Category = await CategoryModel.create({
+        name,
+        season,
+        sale,
+        image:{
+            puplic_id: result.public_id,
+            url:result.secure_url,
+        }
+    });
+    res.status(201).json({
+        success:true,
+        Category
+    })
+}catch (error){
+        console.log(error);
+        next(error);
+    
 }
-const category = await CategoryModel.create({
-    name: req.body.name,
-    season: req.body.season,
-    sale: req.body.sale,
-    image: req.body.image,
-
-})
-
-
-    res.status(200).json(category)
 }
+
+
+// const category = await CategoryModel.create({
+//     name: req.body.name,
+//     season: req.body.season,
+//     sale: req.body.sale,
+//     image:req.body.image,
+    
+    
+
+// })
+
+
+//     res.status(200).json(category)
+// }
 
 
 const updateCategory = async (req, res) => {
