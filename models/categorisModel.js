@@ -10,17 +10,16 @@ const CategorySchema =new mongoose.Schema({
     sale:{
         type:String,
     },
-    Image:{
-        type:Object,
-        
-        // public_id: {
-        //     type: String,
-        // },
-        // url:{
-        //     type: String,
-            
-        // }
-    },
+    image: {
+        public_id:{
+           type: String,
+           //required: true,
+        },
+        url:{
+           type: String,
+           //required: true,
+        }
+      },
 })
 
 

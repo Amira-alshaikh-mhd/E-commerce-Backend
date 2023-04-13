@@ -1,6 +1,17 @@
   
 const CategoryModel = require('../models/categorisModel')
-const cloudinary = require("../config/cloudinary.js");
+const cloudinary= require ('cloudinary').v2;
+
+
+cloudinary.config({
+    // cloud_name: process.env.CLOUD_NAME,
+    // api_key: process.env.API_KEY,
+    // api_secret: process.env.API_SECRET,
+    // cloud_name:"dmziyyrdp",
+    // api_key:"155381824395299",
+    // api_secret:"Gc9Xsc8c4W4rsiG1-h81aYOZI9U"
+
+});
 
 // get all category
 const getCategoris = async(req, res) => {
@@ -13,39 +24,42 @@ const categoris = await CategoryModel.find()
 
 // post category
 
-const setCategory = async (req, res, next) => {
+// const setCategory = async (req, res, next) => {
 
-    const {name, season, sale, image} = req.body;
+// // const {name, season, sale, image} = req.body;
     
     
-if (!req.body.name || !req.body.season || !req.body.image) {
-res.status(400).json({message: "Please add all the information"});
+// // if (!req.body.name || !req.body.season || !req.body.image) {
+// // res.status(400).json({message: "Please add all the information"});
 
-}
+// // }
 
-try{
-    // const category = "category";
+// try{
+//     // const category = "category";
 
-    const result =await cloudinary.uploader.upload(image, {
-        folder: "Avatars",
-    })
+//     // const result =await cloudinary.uploader.upload(req.path.file);
 
-    const Category = await CategoryModel.create({
-        name,
-        season,
-        sale,
-        image: result
-    });
-    res.status(201).json({
-        success:true,
-        Category
-    })
-}catch (error){
-        console.log(error);
-        next(error);
+//     const Category = await CategoryModel.create({
+//             name: req.body.name,
+//             season: req.body.season,
+//             sale: req.body.sale,
+            
+//         //     image:{
+//         //     public_id:result.public_id,
+//         //     url:result.secure_url,
+//         //   }
+//     });
+//     return res.status(201).json({
+//         // success:true,
+//         // Category
+//         message: "successfully"
+//     })
+// }catch (error){
+//         console.log(error);
+//         next(error);
     
-}
-}
+// }
+// }
 
 
 // const category = await CategoryModel.create({
@@ -61,6 +75,37 @@ try{
 
 //     res.status(200).json(category)
 // }
+const setCategory=async(req,res)=>{
+
+    try{
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+
+    if(!req.body){
+        return res.status(400).json({message:"Error"})
+    }
+    else{
+
+
+        const category =await itemsModels.create({
+        name:req.body.name,
+        season:req.body.season,
+        sale:req.body.sale,
+       
+        image: {
+          public_id: result.public_id,
+          url: result.secure_url,
+        },
+    
+
+            });
+
+       return res.status(200).json({message: "product created successfully"})
+    }}
+    catch(err){
+        console.log("error ",err)
+    }
+}
 
 
 const updateCategory = async (req, res) => {
