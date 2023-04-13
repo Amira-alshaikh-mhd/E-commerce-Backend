@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const CategorySchema =new mongoose.Schema({
     name:{
         type:String,
+        required:true,
     },
     season:{
-        type:String
+        type:String,
+        required:true,
     },
     sale:{
         type:String,
@@ -13,11 +15,11 @@ const CategorySchema =new mongoose.Schema({
     image: {
         public_id:{
            type: String,
-           //required: true,
+           required: true,
         },
         url:{
            type: String,
-           //required: true,
+           required: true,
         }
       },
 })
