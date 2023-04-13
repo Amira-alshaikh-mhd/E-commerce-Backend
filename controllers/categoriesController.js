@@ -4,12 +4,10 @@ const cloudinary= require ('cloudinary').v2;
 const path = require("path");
 
 cloudinary.config({
-    // cloud_name: process.env.CLOUD_NAME,
-    // api_key: process.env.API_KEY,
-    // api_secret: process.env.API_SECRET,
-    cloud_name:"dmziyyrdp",
-    api_key:"155381824395299",
-    api_secret:"Gc9Xsc8c4W4rsiG1-h81aYOZI9U"
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+   
 
 });
 
@@ -23,73 +21,20 @@ const categoris = await CategoryModel.find()
 //get by Id
 const getCategoryById = async (req, res) => {
     try {
-      const category = await category.findById(req.params.id);
+      const category = await CategoryModel.findById(req.params.id);
       if (!category) {
         return res.status(404).send();
       }
-      res.send(category);
+      res.json(category);
+
     } catch (error) {
       res.status(500).send(error);
     }
   };
 
   
-
-// post category
-
-// const setCategory = async (req, res, next) => {
-
-// // const {name, season, sale, image} = req.body;
-    
-    
-// // if (!req.body.name || !req.body.season || !req.body.image) {
-// // res.status(400).json({message: "Please add all the information"});
-
-// // }
-
-// try{
-//     // const category = "category";
-
-//     // const result =await cloudinary.uploader.upload(req.path.file);
-
-//     const Category = await CategoryModel.create({
-//             name: req.body.name,
-//             season: req.body.season,
-//             sale: req.body.sale,
-            
-//         //     image:{
-//         //     public_id:result.public_id,
-//         //     url:result.secure_url,
-//         //   }
-//     });
-//     return res.status(201).json({
-//         // success:true,
-//         // Category
-//         message: "successfully"
-//     })
-// }catch (error){
-//         console.log(error);
-//         next(error);
-    
-// }
-// }
-
-
-// const category = await CategoryModel.create({
-//     name: req.body.name,
-//     season: req.body.season,
-//     sale: req.body.sale,
-//     image:req.body.image,
-    
-    
-
-// })
-
-
-//     res.status(200).json(category)
-// }
 const setCategory=async(req,res)=>{
-
+    console.log("req ",req.file)
     try{
       const result = await cloudinary.uploader.upload(req.file.path);
     if(!req.body){
@@ -111,7 +56,7 @@ const setCategory=async(req,res)=>{
 
             });
 
-       return res.status(200).json({message: "product created successfully"})
+       return res.status(200).json({message: "category created successfully"})
     }}
     catch(err){
         console.log("error ",err)

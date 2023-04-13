@@ -5,7 +5,7 @@ const catupload=require("../middleware/catupload");
 
 router.get('/', getCategoris)
 
-router.get('/:{id}', getCategoryById)
+router.get('/:id', getCategoryById)
 
 
 router.post('/', catupload.single('image'),setCategory)
