@@ -1,15 +1,33 @@
 
 const express = require('express');
 const Product = require('../models/productModel');
-const cloudinary=require('../config/cloudinary');
-const upload = require('../config/multer');
+const cloudinary= require ('cloudinary').v2;
+
+
+cloudinary.config({
+    cloud_name:process.env.CLOUD_NAME,
+    api_key:process.env.API_KEY,
+    api_secret:process.env.API_SECRET,
+   
+
+});
+
+
 //create a product
 const createProduct = async (req, res) => {
   
   try {
-    // Upload image to Cloudinary
-    //The error in the uploadedImage
-    const uploadedImage = await cloudinary.uploader.upload(req.file.buffer);
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      for (let i = 0; i < req.files.length; i++) {
+        const uploadedImage = await cloudinary.uploader.upload(req.files[i].path);
+        images.push({
+          public_id: uploadedImage.public_id,
+          url: uploadedImage.secure_url,
+        });
+      }
+    }
+    // const uploadedImage = await cloudinary.uploader.upload(req.file.path);
     const product = new Product({
       title:req.body.title,
       price:req.body.price,
@@ -17,7 +35,7 @@ const createProduct = async (req, res) => {
       color:req.body.color,
       Description:req.body.Description,
       quantity:req.body.quantity,
-      image:[uploadedImage.secure_url]
+      image:images
     });
     await product.save();
     res.status(201).send(product);

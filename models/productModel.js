@@ -27,7 +27,16 @@ const productTable=mongoose.Schema({
      quantity:{
         type:Number
      },
-      image:[String],
+     image: [{
+         public_id:{
+            type: String,
+            //required: true,
+         },
+         url:{
+            type: String,
+            //required: true,
+         }
+       }],
    
 },
     {

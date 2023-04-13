@@ -6,7 +6,6 @@ const app = express();
 const cors = require('cors');
 const productRoute=require("./routes/productRoutes");
 const fs=require('fs');
-const cloudinary=require('./config/cloudinary');
 mongoose.set("strictQuery", true);
 
 connection();
