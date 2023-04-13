@@ -1,9 +1,11 @@
 const express =require('express')
 const router = express.Router()
-const { getCategoris, setCategory, updateCategory,deleteCategory}= require('../controllers/categoriesController')
+const { getCategoris, setCategory, updateCategory,deleteCategory, getCategoryById}= require('../controllers/categoriesController')
 const catupload=require("../middleware/catupload");
 
 router.get('/', getCategoris)
+
+router.get('/:{id}', getCategoryById)
 
 
 router.post('/', catupload.single('image'),setCategory)

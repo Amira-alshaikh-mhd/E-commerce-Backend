@@ -1,15 +1,15 @@
   
 const CategoryModel = require('../models/categorisModel')
 const cloudinary= require ('cloudinary').v2;
-
+const path = require("path");
 
 cloudinary.config({
     // cloud_name: process.env.CLOUD_NAME,
     // api_key: process.env.API_KEY,
     // api_secret: process.env.API_SECRET,
-    // cloud_name:"dmziyyrdp",
-    // api_key:"155381824395299",
-    // api_secret:"Gc9Xsc8c4W4rsiG1-h81aYOZI9U"
+    cloud_name:"dmziyyrdp",
+    api_key:"155381824395299",
+    api_secret:"Gc9Xsc8c4W4rsiG1-h81aYOZI9U"
 
 });
 
@@ -19,6 +19,19 @@ const categoris = await CategoryModel.find()
 
     res.status(200).json(categoris)
 }
+
+//get by Id
+const getCategoryById = async (req, res) => {
+    try {
+      const category = await category.findById(req.params.id);
+      if (!category) {
+        return res.status(404).send();
+      }
+      res.send(category);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 
   
 
@@ -79,15 +92,13 @@ const setCategory=async(req,res)=>{
 
     try{
       const result = await cloudinary.uploader.upload(req.file.path);
-
-
     if(!req.body){
         return res.status(400).json({message:"Error"})
     }
     else{
 
 
-        const category =await itemsModels.create({
+        const category =await CategoryModel.create({
         name:req.body.name,
         season:req.body.season,
         sale:req.body.sale,
@@ -135,6 +146,7 @@ if (!category){
 
 module.exports ={
     getCategoris,
+    getCategoryById,
     setCategory,
     updateCategory,
     deleteCategory,
