@@ -2,7 +2,7 @@
 const express = require('express');
 const Product = require('../models/productModel');
 const cloudinary= require ('cloudinary').v2;
-
+const Category=require('../models/categorisModel');
 
 cloudinary.config({
     cloud_name:process.env.CLOUD_NAME,
@@ -35,7 +35,8 @@ const createProduct = async (req, res) => {
       color:req.body.color,
       Description:req.body.Description,
       quantity:req.body.quantity,
-      image:images
+      image:images,
+      category:req.body.category,
     });
     await product.save();
     res.status(201).send(product);
@@ -48,7 +49,8 @@ const createProduct = async (req, res) => {
 // READ all products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate({path: "category", select: "name"});
+   
     res.send(products);
   } catch (error) {
     res.status(500).send(error);

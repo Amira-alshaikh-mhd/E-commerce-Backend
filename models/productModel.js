@@ -1,5 +1,5 @@
 const mongoose=require ("mongoose");
-
+const{Schema,model}=mongoose;
 const productTable=mongoose.Schema({
     title:{
         type:String
@@ -37,6 +37,12 @@ const productTable=mongoose.Schema({
             //required: true,
          }
        }],
+
+    category:{
+        type:Schema.Types.ObjectId,
+        ref:"categoris",
+        required:[true, "Please include a Category"]
+    }
    
 },
     {
