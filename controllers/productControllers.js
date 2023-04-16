@@ -47,9 +47,10 @@ const createProduct = async (req, res) => {
 
 
 // READ all products
+// {path: "category", select: "name"}
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate({path: "category", select: "name"});
+    const products = await Product.find().populate("category");
    
     res.send(products);
   } catch (error) {
@@ -60,7 +61,7 @@ const getAllProducts = async (req, res) => {
 // READ a single product by ID
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("category");
     if (!product) {
       return res.status(404).send();
     }
@@ -91,6 +92,50 @@ const updateProductById = async (req, res) => {
   }
 };
 
+//get product by category
+const getItemsByCategory = async (req, res) => {
+ 
+  try{
+  const category_id = req.params.category_id;
+  const item = await Product.find({ category: category_id }).populate("category");
+  console.log("ITEM: ", item);
+  res.status(200).json(item);
+  }
+  catch(err){
+  res.json({ message: err });
+  }
+  };
+
+  //get product by category name
+const getItemsByCategoryName = async (req, res) => {
+ try {
+    const categoryName = req.params.categoryName;
+    const items = await Product.aggregate([
+      {
+        $lookup: {
+          from: "categoris",
+          localField: "category",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: "$category",
+      },
+      {
+        $match: {
+          "category.name": categoryName,
+        },
+      },
+    ]);
+    console.log("ITEMS: ", items);
+    res.status(200).json(items);
+  } catch (err) {
+    res.json({ message: err });
+  }
+};
+
+
 
 
 // DELETE a product by ID
@@ -113,5 +158,7 @@ module.exports = {
     getAllProducts,
     getProductById,
     updateProductById,
-    deleteProductById
+    deleteProductById,
+    getItemsByCategory,
+    getItemsByCategoryName
 }
