@@ -73,13 +73,13 @@ if (!category){
     throw new Error('Category not found')
 }
 const updatedCategory = await CategoryModel.findByIdAndUpdate(req.params.id, req.body, {new: true,})
-    console.log("check: ", req.body.sale)
+    
     if(req.body.sale){
         const product = await productModel.find({category: req.params.id})
         console.log('product: ' ,product)
         product.map(async (obj)=> {
             const updatedProduct = await productModel.findByIdAndUpdate(obj._id, {priceAfterDiscount: obj.price * (1- req.body.sale/100)})
-            console.log('update: ', updatedProduct)
+            
             
         })
     }
