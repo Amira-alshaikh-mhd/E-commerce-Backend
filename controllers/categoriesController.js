@@ -65,17 +65,26 @@ const setCategory=async(req,res)=>{
 
 
 const updateCategory = async (req, res) => {
-const category =await CategoryModel.findById(req.params.id)
-
-
-if (!category){
-    res.status(400)
-    throw new Error('Category not found')
-}
-const updatedCategory = await CategoryModel.findByIdAndUpdate(req.params.id, req.body, {new: true,})
-
-    res.status(200).json(updatedCategory)
-}
+  const category =await CategoryModel.findById(req.params.id)
+  
+  
+  if (!category){
+      res.status(400)
+      throw new Error('Category not found')
+  }
+  const updatedCategory = await CategoryModel.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+      
+      if(req.body.sale){
+          const product = await productModel.find({category: req.params.id})
+          console.log('product: ' ,product)
+          product.map(async (obj)=> {
+              const updatedProduct = await productModel.findByIdAndUpdate(obj._id, {priceAfterDiscount: obj.price * (1- req.body.sale/100)})
+              
+              
+          })
+      }
+      res.status(200).json(updatedCategory)
+  }
 
 
 const deleteCategory =  async(req, res) => {
