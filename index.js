@@ -18,23 +18,10 @@ app.use(express.urlencoded({extended:true}));
 
 
 
-const { errorHandler } = require("./middleware/errorMiddleware");
 
-
-
-
-
-
-
-
-
-
-
-app.use("/api/orders", require("./routes/orderRoute"));
-app.use(errorHandler);
 
 app.use('/users',require("./routes/userRoutes"))
-
+app.use("/api/orders", require("./routes/orderRoute"));
 app.use("/product",productRoute);
 app.use('/cat', require('./routes/categoriesRoutes'))
 const port = process.env.PORT || 8080;
