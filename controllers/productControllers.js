@@ -1,6 +1,6 @@
 
 const express = require('express');
-const Product = require('../models/productModel');
+const Product = require('../models/producttables');
 const cloudinary= require ('cloudinary').v2;
 const Category=require('../models/categorisModel');
 

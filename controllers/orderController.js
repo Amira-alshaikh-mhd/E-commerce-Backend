@@ -56,7 +56,7 @@ const updateOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
   console.log(order.cart);
-  const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {
+  const updatedOrder = await OrderModel.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
   res.status(200).json({ updatedOrder });
@@ -70,7 +70,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 
-  await Order.deleteOne({_id: req.params.id});
+  await OrderModel.deleteOne({_id: req.params.id});
 
   res.status(200).json({ id: req.params.id });
 });

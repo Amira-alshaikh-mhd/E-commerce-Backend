@@ -1,6 +1,6 @@
 const mongoose=require ("mongoose");
 const{Schema,model}=mongoose;
-const productTable=mongoose.Schema({
+const producttables=mongoose.Schema({
     title:{
         type:String
     },
@@ -50,4 +50,4 @@ const productTable=mongoose.Schema({
     }
     
 )
-module.exports = mongoose.model("productTable", productTable);
+module.exports = mongoose.model("producttables", producttables);

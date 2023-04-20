@@ -20,10 +20,9 @@
   },
   "homepage": "https://github.com/Amira-alshaikh-mhd/E-commerce-Backend#readme",
   "dependencies": {
-<<<<<<< HEAD
-=======
+
     "async-handler": "^0.0.3",
->>>>>>> origin/fawaz-test
+
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.35.0",
     "cors": "^2.8.5",
