@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const productRoute=require("./routes/productRoutes");
+const catRou=require("./routes/categoriesRoutes");
 const fs=require('fs');
 mongoose.set("strictQuery", true);
 
@@ -15,5 +16,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use("/product",productRoute);
+app.use("/cat",catRou);
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));

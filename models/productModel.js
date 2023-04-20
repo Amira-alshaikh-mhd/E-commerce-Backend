@@ -27,6 +27,9 @@ const productTable=mongoose.Schema({
      quantity:{
         type:Number
      },
+     priceAfterDiscount:{
+        type:Number
+     },
      image: [{
          public_id:{
             type: String,

@@ -3,7 +3,7 @@ const express = require('express');
 const Product = require('../models/productModel');
 const cloudinary= require ('cloudinary').v2;
 const Category=require('../models/categorisModel');
-
+const discounts = require("./discount");
 cloudinary.config({
     cloud_name:process.env.CLOUD_NAME,
     api_key:process.env.API_KEY,
@@ -11,7 +11,12 @@ cloudinary.config({
    
 
 });
-
+//calculate the new price
+function calculateDiscountedPrice(price, discountPercentage) {
+  const discountAmount = price * (discountPercentage / 100);
+  const discountedPrice = price - discountAmount;
+  return discountedPrice;
+}
 
 //create a product
 const createProduct = async (req, res) => {
@@ -27,18 +32,29 @@ const createProduct = async (req, res) => {
         });
       }
     }
-    // const uploadedImage = await cloudinary.uploader.upload(req.file.path);
+    const category = req.body.category;
+    const categorys = await Category.findById(category);
+    const discountPercentage = categorys.sale || 0;
+    const price=req.body.price;
+    const discountedPrice = calculateDiscountedPrice(price, discountPercentage);
+   
+
+    
     const product = new Product({
       title:req.body.title,
-      price:req.body.price,
+      price:price,
       size:req.body.size,
       color:req.body.color,
       Description:req.body.Description,
       quantity:req.body.quantity,
       image:images,
-      category:req.body.category,
+      category:category,
+      priceAfterDiscount:discountedPrice
     });
+    console.log("noo",product.price)
+
     await product.save();
+    //await discounts.updateDescription(product._id, categorys);
     res.status(201).send(product);
   } catch (error) {
     res.status(400).send(error);
@@ -46,8 +62,7 @@ const createProduct = async (req, res) => {
 };
 
 
-// READ all products
-// {path: "category", select: "name"}
+
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find().populate("category");
@@ -160,5 +175,5 @@ module.exports = {
     updateProductById,
     deleteProductById,
     getItemsByCategory,
-    getItemsByCategoryName
+    getItemsByCategoryName,
 }

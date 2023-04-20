@@ -10,7 +10,7 @@ const CategorySchema =new mongoose.Schema({
         required:true,
     },
     sale:{
-        type:String,
+        type:Number,
     },
     image: {
         public_id:{
