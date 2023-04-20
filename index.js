@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 const mongoose = require("mongoose");
 const connection = require("./config/db");
@@ -22,3 +23,22 @@ app.use("/product",productRoute);
 app.use('/cat', require('./routes/categoriesRoutes'))
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
+
+
+
+const { errorHandler } = require("./middleware/errorMiddleware");
+
+
+
+
+
+
+
+
+
+
+
+app.use("/api/orders", require("./routes/orderRoute"));
+app.use(errorHandler);
+
+
