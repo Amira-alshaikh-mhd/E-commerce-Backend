@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+
+
 const dotenv = require('dotenv')
 dotenv.config()
 mongoose.set("strictQuery", true);
@@ -11,3 +13,4 @@ module.exports = async function connection() {
         console.log("could not connect to database");
     }
 };
+
