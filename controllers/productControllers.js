@@ -12,6 +12,13 @@ cloudinary.config({
 
 });
 
+//calculate the new price
+function calculateDiscountedPrice(price, discountPercentage) {
+  const discountAmount = price * (discountPercentage / 100);
+  const discountedPrice = price - discountAmount;
+  return discountedPrice;
+}
+
 
 //create a product
 const createProduct = async (req, res) => {
@@ -27,23 +34,37 @@ const createProduct = async (req, res) => {
         });
       }
     }
-    // const uploadedImage = await cloudinary.uploader.upload(req.file.path);
+    const category = req.body.category;
+    const categorys = await Category.findById(category);
+    const discountPercentage = categorys.sale || 0;
+    console.log("aa",discountPercentage)
+    const price=req.body.price;
+    console.log("prce",price)
+    const discountedPricess = calculateDiscountedPrice(price, discountPercentage);
+    console.log("assala",discountedPricess)
+
+    
     const product = new Product({
       title:req.body.title,
-      price:req.body.price,
+      price:price,
       size:req.body.size,
       color:req.body.color,
       Description:req.body.Description,
       quantity:req.body.quantity,
       image:images,
-      category:req.body.category,
+      category:category,
+      priceAfterDiscount:discountedPricess,
     });
+    console.log("noo",product.priceAfterDiscount)
+
     await product.save();
+    //await discounts.updateDescription(product._id, categorys);
     res.status(201).send(product);
   } catch (error) {
     res.status(400).send(error);
   }
 };
+
 
 
 // READ all products
