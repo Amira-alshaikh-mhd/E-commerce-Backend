@@ -32,6 +32,38 @@ const getCategoryById = async (req, res) => {
     }
   };
 
+
+
+
+
+  const getCategoryBySeason = async(req, res) => {
+    try {
+      
+      const season = req.params.season;
+    
+      const filter = season ? { season } : {}; 
+      const categorySea = await CategoryModel.find(filter);
+      
+      res.status(200).json(categorySea);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 const setCategory=async(req,res)=>{
     console.log("req ",req.file)
@@ -101,6 +133,7 @@ if (!category){
 module.exports ={
     getCategoris,
     getCategoryById,
+    getCategoryBySeason,
     setCategory,
     updateCategory,
     deleteCategory,
