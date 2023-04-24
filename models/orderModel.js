@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const Product = require('./Product');
+const producttables = require('./producttables.js');
 
 const OrderModel = new Schema(
   {
@@ -9,12 +9,12 @@ const OrderModel = new Schema(
       {
         productID: {
           type: Schema.Types.ObjectId,
-          ref: "Product",
+          ref: "producttables",
           required: [true, "Please include a productTable"],
         },
 
         quantity: {
-          type: String,
+          type: Number,
           required: true,
         },
       },
@@ -24,7 +24,7 @@ const OrderModel = new Schema(
       required: true,
     },
     total_price: {
-      type: String,
+      type: Number,
       required: true,
     },
     created_at: {

@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const OrderModel = require('./orderModel');
 
-const Product = mongoose.Schema(
+const producttables = mongoose.Schema(
   {
     title: {
       type: String,
     },
     price: {
-      type: String,
+      type: Number,
     },
     size: {
       type: [String],
@@ -51,4 +51,4 @@ const Product = mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model("Product", Product);
+module.exports = mongoose.model("producttables", producttables);
