@@ -79,9 +79,13 @@ const updateOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
   console.log(order.cart);
-  const updatedOrder = await OrderModel.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const updatedOrder = await OrderModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+    }
+  );
   res.status(200).json({ updatedOrder });
 });
 
@@ -93,11 +97,30 @@ const deleteOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 
-
   await OrderModel.deleteOne({ _id: req.params.id });
 
-
   res.status(200).json({ id: req.params.id });
+});
+
+const deletecart = asyncHandler(async (req, res) => {
+  const order = await OrderModel.findOne({ "cart._id": req.params.id });
+
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+
+  order.cart = order.cart.filter(
+    (item) => item._id.toString() !== req.params.id
+  );
+  await order.save();
+
+  res.status(200).json({ message: "Cart deleted successfully" });
+  if (order.cart.length === 0) {
+    const idd = order._id;
+    await OrderModel.findByIdAndDelete(idd);
+    return res.status(200).json({ message: "Order deleted successfully" });
+  }
 });
 
 module.exports = {
@@ -106,4 +129,5 @@ module.exports = {
   setOrder,
   updateOrder,
   deleteOrder,
+  deletecart,
 };
