@@ -37,11 +37,9 @@ const createProduct = async (req, res) => {
     const category = req.body.category;
     const categorys = await Category.findById(category);
     const discountPercentage = categorys.sale || 0;
-    console.log("aa",discountPercentage)
     const price=req.body.price;
-    console.log("prce",price)
     const discountedPricess = calculateDiscountedPrice(price, discountPercentage);
-    console.log("assala",discountedPricess)
+  
 
     
     const product = new Product({
@@ -50,12 +48,11 @@ const createProduct = async (req, res) => {
       size:req.body.size,
       color:req.body.color,
       Description:req.body.Description,
-      quantity:req.body.quantity,
       image:images,
       category:category,
       priceAfterDiscount:discountedPricess,
     });
-    console.log("noo",product.priceAfterDiscount)
+ 
 
     await product.save();
     //await discounts.updateDescription(product._id, categorys);
@@ -95,7 +92,7 @@ const getProductById = async (req, res) => {
 // UPDATE a product by ID
 const updateProductById = async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ['title','price', 'size','color', 'Description','quantity'];
+  const allowedUpdates = ['title','price', 'size','color', 'Description'];
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
   if (!isValidOperation) {
     return res.status(400).send({ error: 'Invalid updates!' });
@@ -119,7 +116,7 @@ const getItemsByCategory = async (req, res) => {
   try{
   const category_id = req.params.category_id;
   const item = await Product.find({ category: category_id }).populate("category");
-  console.log("ITEM: ", item);
+
   res.status(200).json(item);
   }
   catch(err){
@@ -149,7 +146,7 @@ const getItemsByCategoryName = async (req, res) => {
         },
       },
     ]);
-    console.log("ITEMS: ", items);
+ 
     res.status(200).json(items);
   } catch (err) {
     res.json({ message: err });

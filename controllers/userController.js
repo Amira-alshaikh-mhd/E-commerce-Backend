@@ -11,14 +11,14 @@ const registerUser = async (req, res) => {
   
     // Check if all required fields are present
     if (!name || !email || !password||!phone||!address||!role) {
-      return res.status(400).send({ message: "Please provide all required fields." });
+      return res.send({ message: "Please provide all required fields." });
     }
   
     try {
       // Check if the user already exists in the database
       const userExists = await User.findOne({ email });
       if (userExists) {
-        return res.status(409).send({ message: "User already exists." });
+        return res.send({ message: "User already exists." });
       }
   
       // Hash the password
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
       const newUser = new User({ name, email, password: hashedPassword,phone,address,role });
       const savedUser = await newUser.save();
   
-      res.status(201).send({ message: "User created successfully." ,token:generatetoken(savedUser.id)}
+      res.send({ message: "User created successfully." ,token:generatetoken(savedUser.id)}
       
       );
     } catch (error) {
@@ -56,7 +56,7 @@ const loginUser=async(req,res)=>{
       
         })
     }else {
-        return res.status(409).send({ message: "User doesnt  exist." })
+        return res.send({ message: "User doesnt  exist." })
 
     }
 
