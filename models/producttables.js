@@ -5,7 +5,7 @@ const producttables=mongoose.Schema({
         type:String
     },
     price:{
-        type:String
+        type:Number
     },
     size:{
          type: [String],
@@ -24,9 +24,7 @@ const producttables=mongoose.Schema({
      Description:{
         type:String
      },
-     quantity:{
-        type:Number
-     },
+     
      priceAfterDiscount:{
         type:Number
      },
