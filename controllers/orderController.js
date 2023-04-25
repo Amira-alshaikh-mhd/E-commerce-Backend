@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const OrderModel = require("../models/orderModel");
-
+const producttables = require("../models/producttables");
 const getAllOrder = async (req, res) => {
   try {
     const orders = await OrderModel.find().populate("cart.productID").exec();
@@ -43,8 +43,31 @@ const setOrder = asyncHandler(async (req, res) => {
   const order = await OrderModel.create({
     cart: req.body.cart,
     payment_type: req.body.payment_type,
-    total_price: req.body.total_price,
+    total_price: 0, // set initial total_price to 0
   });
+
+  const cartItems = order.cart;
+
+  let totalPrice = 0;
+
+  for (let i = 0; i < cartItems.length; i++) {
+    const cartItem = cartItems[i];
+
+    const product = await producttables.findById(cartItem.productID);
+
+    if (!product) {
+      res.status(404);
+      throw new Error(`Product not found with id ${cartItem.productID}`);
+    }
+
+    const itemTotalPrice = product.price * cartItem.quantity;
+
+    totalPrice += itemTotalPrice;
+  }
+
+  order.total_price = totalPrice;
+  await order.save();
+
   res.status(200).json(order);
 });
 
@@ -70,7 +93,9 @@ const deleteOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 
-  await OrderModel.deleteOne({_id: req.params.id});
+
+  await Order.deleteOne({ _id: req.params.id });
+
 
   res.status(200).json({ id: req.params.id });
 });
