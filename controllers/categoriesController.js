@@ -66,7 +66,7 @@ const getCategoryById = async (req, res) => {
 
   
 const setCategory=async(req,res)=>{
-    console.log("req ",req.file)
+    
     try{
       const result = await cloudinary.uploader.upload(req.file.path);
     if(!req.body){
