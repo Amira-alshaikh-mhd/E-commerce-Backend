@@ -93,7 +93,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 
-  await Order.deleteOne({ _id: req.params.id });
+  await OrderModel.deleteOne({ _id: req.params.id });
 
   res.status(200).json({ id: req.params.id });
 });
