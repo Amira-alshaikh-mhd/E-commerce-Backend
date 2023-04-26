@@ -2,10 +2,12 @@ const mongoose=require ("mongoose");
 const{Schema,model}=mongoose;
 const producttables=mongoose.Schema({
     title:{
-        type:String
+        type:String,
+        required: true,
     },
     price:{
-        type:Number
+        type:Number,
+        required: true,
     },
     size:{
          type: [String],
@@ -22,7 +24,8 @@ const producttables=mongoose.Schema({
         
      },
      Description:{
-        type:String
+        type:String,
+        required: true,
      },
      
      priceAfterDiscount:{

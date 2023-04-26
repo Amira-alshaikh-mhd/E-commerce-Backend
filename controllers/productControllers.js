@@ -22,7 +22,7 @@ function calculateDiscountedPrice(price, discountPercentage) {
 
 //create a product
 const createProduct = async (req, res) => {
-  
+ 
   try {
     let images = [];
     if (req.files && req.files.length > 0) {
@@ -34,27 +34,48 @@ const createProduct = async (req, res) => {
         });
       }
     }
+    const { title, size, color, Description} = req.body;
     const category = req.body.category;
     const categorys = await Category.findById(category);
     const discountPercentage = categorys.sale || 0;
     const price=req.body.price;
     const discountedPricess = calculateDiscountedPrice(price, discountPercentage);
   
+   
 
-    
+    if (!title) {
+      return res.status(400).send({ message: "Please provide title." });
+    }
+    if (!price) {
+      return res.status(400).send({ message: "Please provide the price." });
+    }
+    if (!size) {
+      return res.status(400).send({ message: "Please provide the size." });
+    }
+    if (!color) {
+      return res.status(400).send({ message: "Please provide the color." });
+    }
+    if (!Description) {
+      return res.status(400).send({ message: "Please provide the description." });
+    }
+    if (!category) {
+      return res.status(400).send({ message: "Please provide the category." });
+    }
     const product = new Product({
-      title:req.body.title,
-      price:price,
-      size:req.body.size,
-      color:req.body.color,
-      Description:req.body.Description,
-      image:images,
-      category:category,
-      priceAfterDiscount:discountedPricess,
+      title,
+      price,
+      size,
+      color,
+      Description,
+      image: images,
+      category,
+      priceAfterDiscount: discountedPricess,
     });
- 
-
+    
+  
+    
     await product.save();
+
     //await discounts.updateDescription(product._id, categorys);
     res.status(201).send(product);
   } catch (error) {
