@@ -50,7 +50,7 @@ const registerUser = async (req, res) => {
       const newUser = new User({ name, email, password: hashedPassword,phone,address,role });
       const savedUser = await newUser.save();
   
-      res.send({ message: "User created successfully." ,token:generatetoken(savedUser.id),role, _id: savedUser.id}
+      res.send({ message: "User created successfully." ,token:generatetoken(savedUser.id),role, _id: savedUser.id,phone,address}
       
       );
     } catch (error) {
