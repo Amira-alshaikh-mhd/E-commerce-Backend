@@ -1,5 +1,6 @@
   
 const CategoryModel = require('../models/categorisModel')
+const productModel = require('../models/producttables')
 const cloudinary= require ('cloudinary').v2;
 const path = require("path");
 
