@@ -3,7 +3,7 @@ const OrderModel = require("../models/orderModel");
 const producttables = require("../models/producttables");
 const getAllOrder = async (req, res) => {
   try {
-    const orders = await OrderModel.find().populate("cart.productID").exec();
+    const orders = await OrderModel.find();
     res.send(orders);
   } catch (error) {
     res.status(500).send(error);
@@ -12,9 +12,7 @@ const getAllOrder = async (req, res) => {
 
 const getOrder = async (req, res) => {
   try {
-    const order = await OrderModel.findById(req.params.id).populate(
-      "cart.productID"
-    );
+    const order = await OrderModel.findById(req.params.id)
     if (!order) {
       return res.status(404).send();
     }
@@ -43,29 +41,11 @@ const setOrder = asyncHandler(async (req, res) => {
   const order = await OrderModel.create({
     cart: req.body.cart,
     payment_type: req.body.payment_type,
-    total_price: 0, // set initial total_price to 0
+    total_price: req.body.total_price,
+    phone_number: req.body.phone_number,
+    address: req.body.address,
   });
 
-  const cartItems = order.cart;
-
-  let totalPrice = 0;
-
-  for (let i = 0; i < cartItems.length; i++) {
-    const cartItem = cartItems[i];
-
-    const product = await producttables.findById(cartItem.productID);
-
-    if (!product) {
-      res.status(404);
-      throw new Error(`Product not found with id ${cartItem.productID}`);
-    }
-
-    const itemTotalPrice = product.price * cartItem.quantity;
-
-    totalPrice += itemTotalPrice;
-  }
-
-  order.total_price = totalPrice;
   await order.save();
 
   res.status(200).json(order);

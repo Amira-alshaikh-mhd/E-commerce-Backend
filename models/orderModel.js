@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-
-const producttables = require('./producttables.js');
-
+const producttables = require("./producttables.js");
 
 const OrderModel = new Schema(
   {
@@ -14,8 +12,19 @@ const OrderModel = new Schema(
           ref: "producttables",
           required: [true, "Please include a productTable"],
         },
-
+        title: {
+          type: String,
+        },
+        size: {
+          type: String,
+        },
+        color: {
+          type: String,
+        },
         quantity: {
+          type: Number,
+        },
+        price: {
           type: Number,
         },
       },
@@ -25,7 +34,12 @@ const OrderModel = new Schema(
     },
     total_price: {
       type: Number,
-      required: true,
+    },
+    phone_number: {
+      type: Number,
+    },
+    address: {
+      type: String,
     },
     created_at: {
       type: Date,
