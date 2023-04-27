@@ -17,7 +17,6 @@ const OrderModel = new Schema(
 
         quantity: {
           type: Number,
-          required: true,
         },
       },
     ],
