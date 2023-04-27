@@ -22,7 +22,6 @@ const OrderModel = new Schema(
     ],
     payment_type: {
       type: String,
-      required: true,
     },
     total_price: {
       type: Number,
