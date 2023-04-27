@@ -11,6 +11,27 @@ const registerUser = async (req, res) => {
   
     // Check if all required fields are present
     if (!name || !email || !password||!phone||!address||!role) {
+      if(!name){
+        return res.send({ message: "Please provide all required the name." });
+      }
+      else if(!email){
+        return res.send({ message: "Please provide email." });
+      }
+      else if(!password){
+        return res.send({ message: "Please provide password." });
+      }
+      else if (!phone){
+        return res.send({ message: "Please provide phone" });
+      }
+      else if(!address){
+        return res.send({ message: "Please provide address" });
+      }
+      else if (!role){
+        return res.send({ message: "Please provide role" });
+      }
+
+
+
       return res.send({ message: "Please provide all required fields." });
     }
   
@@ -29,7 +50,7 @@ const registerUser = async (req, res) => {
       const newUser = new User({ name, email, password: hashedPassword,phone,address,role });
       const savedUser = await newUser.save();
   
-      res.send({ message: "User created successfully." ,token:generatetoken(savedUser.id)}
+      res.send({ message: "User created successfully." ,token:generatetoken(savedUser.id),role, _id: savedUser.id}
       
       );
     } catch (error) {
