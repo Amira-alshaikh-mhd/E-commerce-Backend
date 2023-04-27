@@ -17,13 +17,11 @@ const OrderModel = new Schema(
 
         quantity: {
           type: Number,
-          required: true,
         },
       },
     ],
     payment_type: {
       type: String,
-      required: true,
     },
     total_price: {
       type: Number,
